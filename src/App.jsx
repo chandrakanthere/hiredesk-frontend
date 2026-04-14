@@ -5,20 +5,22 @@ import { useUser } from "@clerk/react";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  const { isSignedIn } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
 
   return (
     <>
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route
-        path="/problems"
-        element={isSignedIn ? <ProblemsPage /> : <Navigate to="/"  />}
-      />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/problems"
+          element={
+            !isLoaded ? null : isSignedIn ? <ProblemsPage /> : <Navigate to="/" replace />
+          }
+        />
+      </Routes>
 
 
-    <Toaster/>
+      <Toaster />
     </>
   );
 }
